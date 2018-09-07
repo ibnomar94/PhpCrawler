@@ -3,7 +3,7 @@
 
 class Constants {
 
-	const SERVERNAME = "127.0.0.1" ; // if the port is different than 3306 please ass :portNumber
+	const SERVERNAME = "127.0.0.1" ; // if the port is different than 3306 please add :portNumber
 	const DBNAME = "crawler" ;
 	const USERNAME ="root" ;
 	const PASSWORD = "";
