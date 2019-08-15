@@ -34,33 +34,14 @@ class Connector
 
     public function addNewUrl($url)
     {
-        $instance = null ;
-        //$instance = $this->getInstance() ;
         $url_hash = crc32($url) ;
         $this->visitedLinks[$url_hash] = $url ;
-        //ksort($this->visitedLinks) ;
         $sizeOfVisitedLinks = sizeof($this->visitedLinks) ;
-        if( $sizeOfVisitedLinks == $this->maxVisitedLinksSize){
-            $instance = $this->getInstance() ;
-            $sql = "INSERT INTO {$this->dbConfig['table']} (`link_hash`, `link_value`)  VALUES ";
-            foreach ($this->visitedLinks as $key => $value)
-            {
-                $sql .= "(
-                            '{$key}',
-                            '{$value}'
-                        ),";
-            }
-            $sql = substr($sql, 0, -1) ;
-            if ($instance->query($sql) === false) 
-            {
-                echo "\nError: \n" . $sql . "\n" . $instance->error;
-                exit() ;
-            }
-            $this->visitedLinks = array() ;
-        }
 
-        // $sql = "INSERT INTO {$this->dbConfig['table']} (`link_hash`, `link_value`) VALUES ({$url_hash}, '{$url}');" ;
-        
+        if( $sizeOfVisitedLinks == $this->maxVisitedLinksSize)
+        {
+            $this->commitVistedArrayToDb() ;
+        }
     }
 
     public function checkIfUrlExists($url)
@@ -90,6 +71,25 @@ class Connector
 
         return $foundFlag ;
 
+    }
+
+    private function commitVistedArrayToDb(){
+        $instance = $this->getInstance() ;
+        $sql = "INSERT INTO {$this->dbConfig['table']} (`link_hash`, `link_value`)  VALUES ";
+        foreach ($this->visitedLinks as $key => $value)
+        {
+            $sql .= "(
+                        '{$key}',
+                        '{$value}'
+                    ),";
+        }
+        $sql = substr($sql, 0, -1) ;
+        if ($instance->query($sql) === false) 
+        {
+            echo "\nError: \n" . $sql . "\n" . $instance->error;
+            exit() ;
+        }
+        $this->visitedLinks = array() ;
     }
 
     public function initEnvironment()
