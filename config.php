@@ -7,5 +7,6 @@ return [
         'username' => 'root',
         'password' => '',
         'table' => 'links'
-    ]
+    ],
+    'targetUrl' => 'https://www.homegate.ch/mieten/immobilien/kanton-zuerich/trefferliste'
 ];

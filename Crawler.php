@@ -1,15 +1,13 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 
-include "Connector.php";
 include "Helper.php";
 
-$targetUrl = $argv[1];
-$connector = new Connector();
-$helper = new Helper($connector);
+$config = require_once  __DIR__ . '/config.php';
+$helper = new Helper();
 
 echo "Crawling Started";
-getLinksFromUrl($targetUrl, $helper);
+getLinksFromUrl($config['targetUrl'], $helper);
 echo "Done";
 
 function getLinksFromUrl($url, $helper)

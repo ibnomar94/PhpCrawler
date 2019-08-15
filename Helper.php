@@ -1,13 +1,15 @@
 <?php
 
+include "Connector.php";
+
 class Helper
 {
     public $linkCounter = 0;
     private $connector;
 
-    function __construct($dbConnection)
+    function __construct()
     {
-        $this->connector = $dbConnection;
+        $this->connector = new Connector();
     }
 
     public function incrementValue()
