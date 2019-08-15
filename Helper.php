@@ -6,10 +6,17 @@ class Helper
 {
     public $linkCounter = 0;
     private $connector;
+    private $configurationReader ;
 
-    function __construct()
+    function __construct($configurationReader)
     {
-        $this->connector = new Connector();
+        $this->configurationReader = $configurationReader ;
+        $this->connector = new Connector($configurationReader->getConfig("database"));
+    }
+
+    public function getConfigurationReader()
+    {
+        return $this->configurationReader ;
     }
 
     public function incrementValue()
@@ -25,6 +32,7 @@ class Helper
     public function addVisitedUrl($url)
     {
         $this->incrementValue();
+        $this->printUrlValue($url) ;
         $this->connector->addNewUrl($url);
     }
 
@@ -35,7 +43,6 @@ class Helper
 
     public function printUrlValue($url)
     {
-        echo $this->getCounterValue().' => '.$url;
-        echo "\n";
+        echo "\r\n".$this->getCounterValue().' => '.$url;
     }
 }
